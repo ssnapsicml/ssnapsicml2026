@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Enhancement – Audio Samples</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('play', event => {
+            if (event.target.tagName !== 'AUDIO') return;
+            document.querySelectorAll('audio').forEach(audio => {
+                if (audio !== event.target) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            });
+        }, true);
+    });
+</script>
+
+<body>
+
+    <header>
+        <h1>Speech Separation & Enhancement</h1>
+        <p class="subtitle">
+            Qualitative audio examples for an anonymous submission.
+        </p>
+    </header>
+
+    <nav class="tabs">
+        <a class="tab active" href="enhancement.html">1 Speaker</a>
+        <a class="tab" href="separation_2spk.html">2 Speakers</a>
+        <a class="tab" href="separation_3spk.html">3 Speakers</a>
+    </nav>
+
+    <section class="group">
+        <h2>Enhancement</h2>
+        <p class="group-desc">
+            Single-speaker speech enhancement results.
+        </p>
+
+        <!-- ================= DCASE ================= -->
+
+        <div class="sample-card">
+            <div class="sample-header">
+                <h4>DCASE noise with one active speaker</h4>
+            </div>
+
+            <h5>Mixture</h5>
+            <audio controls src="samples/enhancement/enhancement_vox2_dcase/mix.wav"></audio>
+
+            <h5>Speaker 1</h5>
+            <table>
+                <tr>
+                    <th>System</th>
+                    <th>Audio</th>
+                </tr>
+
+                <tr>
+                    <td>Reference</td>
+                    <td><audio controls
+                            src="samples/enhancement/enhancement_vox2_dcase/speakers/spk1/reference.wav"></audio></td>
+                </tr>
+
+                <tr>
+                    <td>FlowAvse</td>
+                    <td><audio controls
+                            src="samples/enhancement/enhancement_vox2_dcase/speakers/spk1/flowavse.wav"></audio></td>
+                </tr>
+
+                <tr>
+                    <td>RAVSS</td>
+                    <td><audio controls
+                            src="samples/enhancement/enhancement_vox2_dcase/speakers/spk1/ravss.wav"></audio></td>
+                </tr>
+
+                <tr>
+                    <td>Proposed</td>
+                    <td><audio controls
+                            src="samples/enhancement/enhancement_vox2_dcase/speakers/spk1/proposed.wav"></audio></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- ================= DNS ================= -->
+
+        <div class="sample-card">
+            <div class="sample-header">
+                <h4>DNS noise with one active speaker</h4>
+            </div>
+
+            <h5>Mixture</h5>
+            <audio controls src="samples/enhancement/enhancement_vox2_dns/mix.wav"></audio>
+
+            <h5>Speaker 1</h5>
+            <table>
+                <tr>
+                    <th>System</th>
+                    <th>Audio</th>
+                </tr>
+
+                <tr>
+                    <td>Reference</td>
+                    <td><audio controls
+                            src="samples/enhancement/enhancement_vox2_dns/speakers/spk1/reference.wav"></audio></td>
+                </tr>
+
+                <tr>
+                    <td>FlowAvse</td>
+                    <td><audio controls
+                            src="samples/enhancement/enhancement_vox2_dns/speakers/spk1/flowavse.wav"></audio></td>
+                </tr>
+
+                <tr>
+                    <td>FlowAvse - Trained on 2 speakers</td>
+                    <td><audio controls
+                            src="samples/enhancement/enhancement_vox2_dns/speakers/spk1/flowavse2.wav"></audio></td>
+                </tr>
+
+                <tr>
+                    <td>FlowAvse - Trained on 3 speakers</td>
+                    <td><audio controls
+                            src="samples/enhancement/enhancement_vox2_dns/speakers/spk1/flowavse3.wav"></audio></td>
+                </tr>
+
+                <tr>
+                    <td>RAVSS</td>
+                    <td><audio controls src="samples/enhancement/enhancement_vox2_dns/speakers/spk1/ravss.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Proposed</td>
+                    <td><audio controls
+                            src="samples/enhancement/enhancement_vox2_dns/speakers/spk1/proposed.wav"></audio></td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+</body>
+
+</html>

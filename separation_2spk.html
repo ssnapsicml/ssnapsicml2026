@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>2 Speakers – Audio Samples</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('play', event => {
+            if (event.target.tagName !== 'AUDIO') return;
+            document.querySelectorAll('audio').forEach(audio => {
+                if (audio !== event.target) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            });
+        }, true);
+    });
+</script>
+
+<body>
+
+    <header>
+        <h1>Speech Separation & Enhancement</h1>
+        <p class="subtitle">Qualitative audio examples for an anonymous submission.</p>
+    </header>
+
+    <nav class="tabs">
+        <a class="tab" href="enhancement.html">1 Speaker</a>
+        <a class="tab active" href="separation_2spk.html">2 Speakers</a>
+        <a class="tab" href="separation_3spk.html">3 Speakers</a>
+    </nav>
+
+    <section class="group">
+        <h2>2-Speaker Separation</h2>
+        <p class="group-desc">
+            Full separation of two active speakers from a single mixture.
+        </p>
+
+        <div class="sample-card">
+            <div class="sample-header">
+                <h4>DCASE noise with two active speaker</h4>
+            </div>
+
+            <h5>Mixture</h5>
+            <audio controls src="samples/2_spk_separation/separation_vox2_dcase/mix.wav"></audio>
+
+            <h5>Speaker 1</h5>
+            <table>
+                <tr>
+                    <th>System</th>
+                    <th>Audio</th>
+                </tr>
+
+                <tr>
+                    <td>Reference</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dcase/speakers/spk1/reference.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>FlowAvse</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dcase/speakers/spk1/flowavse.wav"></audio>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>RAVSS</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dcase/speakers/spk1/ravss.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Proposed</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dcase/speakers/spk1/proposed.wav"></audio>
+                    </td>
+                </tr>
+            </table>
+            <h5>Speaker 2</h5>
+            <table>
+                <tr>
+                    <th>System</th>
+                    <th>Audio</th>
+                </tr>
+
+                <tr>
+                    <td>Reference</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dcase/speakers/spk2/reference.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>FlowAvse</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dcase/speakers/spk2/flowavse.wav"></audio>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>RAVSS</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dcase/speakers/spk2/ravss.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Proposed</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dcase/speakers/spk2/proposed.wav"></audio>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <div class="sample-card">
+            <div class="sample-header">
+                <h4>DNS noise with two active speakers, snr=0dB</h4>
+            </div>
+
+            <h5>Mixture</h5>
+            <audio controls src="samples/2_spk_separation/separation_vox2_dns_0db/mix.wav"></audio>
+
+            <h5>Speaker 1</h5>
+            <table>
+                <tr>
+                    <th>System</th>
+                    <th>Audio</th>
+                </tr>
+
+                <tr>
+                    <td>Reference</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_0db/speakers/spk1/reference.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>FlowAvse</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_0db/speakers/spk1/flowavse.wav"></audio>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>FlowAvse - Trained on 1 speaker</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_0db/speakers/spk1/flowavse1.wav"></audio>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>FlowAvse - Trained on 3 speakers</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_0db/speakers/spk1/flowavse3.wav"></audio>
+                    </td>
+                </tr>
+
+
+
+                <tr>
+                    <td>AVuDiffSE</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_0db/speakers/spk1/avudiffse.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>DPS</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_0db/speakers/spk1/dps.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>RAVSS</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_0db/speakers/spk1/ravss.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Proposed</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_0db/speakers/spk1/proposed.wav"></audio>
+                    </td>
+                </tr>
+            </table>
+            <h5>Speaker 2</h5>
+            <table>
+                <tr>
+                    <th>System</th>
+                    <th>Audio</th>
+                </tr>
+
+                <tr>
+                    <td>Reference</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_0db/speakers/spk2/reference.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>FlowAvse</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_0db/speakers/spk2/flowavse.wav"></audio>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>FlowAvse - Trained on 1 speaker</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_0db/speakers/spk2/flowavse1.wav"></audio>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>FlowAvse - Trained on 3 speakers</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_0db/speakers/spk2/flowavse3.wav"></audio>
+                    </td>
+                </tr>
+
+
+
+                <tr>
+                    <td>AVuDiffSE</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_0db/speakers/spk2/avudiffse.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>DPS</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_0db/speakers/spk2/dps.wav"></audio>
+                    </td>
+                </tr>
+                <tr>
+                    <td>RAVSS</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_0db/speakers/spk2/ravss.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Proposed</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_0db/speakers/spk2/proposed.wav"></audio>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <div class="sample-card">
+            <div class="sample-header">
+                <h4>DNS noise with two active speakers, snr=5dB</h4>
+            </div>
+
+            <h5>Mixture</h5>
+            <audio controls src="samples/2_spk_separation/separation_vox2_dns_5db/mix.wav"></audio>
+
+            <h5>Speaker 1</h5>
+            <table>
+                <tr>
+                    <th>System</th>
+                    <th>Audio</th>
+                </tr>
+
+                <tr>
+                    <td>Reference</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_5db/speakers/spk1/reference.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>FlowAvse</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_5db/speakers/spk1/flowavse.wav"></audio>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>FlowAvse - Trained on 1 speaker</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_5db/speakers/spk1/flowavse1.wav"></audio>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>FlowAvse - Trained on 3 speakers</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_5db/speakers/spk1/flowavse3.wav"></audio>
+                    </td>
+                </tr>
+
+
+
+                <tr>
+                    <td>AVuDiffSE</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_5db/speakers/spk1/avudiffse.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>DPS</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_5db/speakers/spk1/dps.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>RAVSS</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_5db/speakers/spk1/ravss.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Proposed</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_5db/speakers/spk1/proposed.wav"></audio>
+                    </td>
+                </tr>
+            </table>
+            <h5>Speaker 2</h5>
+            <table>
+                <tr>
+                    <th>System</th>
+                    <th>Audio</th>
+                </tr>
+
+                <tr>
+                    <td>Reference</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_5db/speakers/spk2/reference.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>FlowAvse</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_5db/speakers/spk2/flowavse.wav"></audio>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>FlowAvse - Trained on 1 speaker</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_5db/speakers/spk2/flowavse1.wav"></audio>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>FlowAvse - Trained on 3 speakers</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_5db/speakers/spk2/flowavse3.wav"></audio>
+                    </td>
+                </tr>
+
+
+
+                <tr>
+                    <td>AVuDiffSE</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_5db/speakers/spk2/avudiffse.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>DPS</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_5db/speakers/spk2/dps.wav"></audio>
+                    </td>
+                </tr>
+                <tr>
+                    <td>RAVSS</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_5db/speakers/spk2/ravss.wav"></audio>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Proposed</td>
+                    <td><audio controls
+                            src="samples/2_spk_separation/separation_vox2_dns_5db/speakers/spk2/proposed.wav"></audio>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </section>
+    </section>
+
+</body>
+
+</html>
