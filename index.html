@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Audio Samples – Anonymous Submission</title>
+    <title>Audio Samples </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -11,20 +11,37 @@
 <body>
 
     <header>
-        <h1>Speech Separation & Enhancement</h1>
+        <h1>SSNAPS: Audio-Visual Separation of Speech and Background Noise with Diffusion Inverse Sampling</h1>
         <p class="subtitle">
-            Qualitative audio examples for an anonymous submission.
+            Qualitative audio examples.
         </p>
     </header>
 
     <!-- Navigation tabs -->
     <nav class="tabs">
-        <a class="tab active" href="enhancement.html">1 Speaker (Enhancement)</a>
+        <a class="tab active" href="index.html">Abstract</a>
+        <a class="tab" href="enhancement.html">1 Speaker (Enhancement)</a>
         <a class="tab" href="separation_2spk.html">2 Speakers</a>
         <a class="tab" href="separation_3spk.html">3 Speakers</a>
     </nav>
 
     <section class="group">
+        <div class="abstract-card">
+            <h2>Abstract</h2>
+            <p>
+                This paper addresses the challenge of audio-visual single-microphone speech separation and enhancement
+                in the presence of real-world environmental noise. Our approach is based on generative inverse sampling,
+                where we model clean speech and ambient noise with dedicated diffusion priors and jointly leverage them
+                to recover all underlying sources. To achieve this, we reformulate a recent inverse sampler to match our
+                setting.
+                We evaluate on mixtures of 1, 2, and 3 speakers and noise, and show that despite being entirely
+                unsupervised, our method consistently surpasses leading supervised baselines in terms of Word Error Rate
+                (WER) across all conditions. We further extend our framework to handle off-screen speaker separation.
+                Moreover, the high fidelity of the separated noise component makes it suitable for downstream acoustic
+                scene detection. Code and pretrained models will become available upon acceptance.
+            </p>
+        </div>
+
         <p class="group-desc">
             Please use the tabs above to navigate between enhancement and multi-speaker
             separation scenarios.
