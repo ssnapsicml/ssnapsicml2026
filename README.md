@@ -4,4 +4,4 @@ Qualitative audio examples demonstrating speech separation and enhancement resul
 
 ## Live Demo
 
-View the interactive audio samples: (https://ssnapsicml.github.io/ssnapsicm2026)
+View the interactive audio samples: (https://ssnapsicml.github.io/ssnapsicml2026)
