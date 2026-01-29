@@ -10,15 +10,81 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // Map each audio element to its corresponding video(s)
+        // For mixture audio: play all speaker videos
+        // For system audio: play the corresponding speaker video
+
         document.addEventListener('play', event => {
-            if (event.target.tagName !== 'AUDIO') return;
-            document.querySelectorAll('audio').forEach(audio => {
-                if (audio !== event.target) {
-                    audio.pause();
-                    audio.currentTime = 0;
+            if (event.target.tagName !== 'AUDIO' && event.target.tagName !== 'VIDEO') return;
+
+            // Pause all other media
+            document.querySelectorAll('audio, video').forEach(media => {
+                if (media !== event.target) {
+                    media.pause();
+                    try { media.currentTime = 0; } catch (e) { }
                 }
             });
+
+            // If an audio is played, sync and play its corresponding video(s) muted
+            if (event.target.tagName === 'AUDIO') {
+                const audioSrc = event.target.getAttribute('src');
+                const audioRow = event.target.closest('tr');
+
+                if (audioRow) {
+                    const systemName = audioRow.querySelector('td').textContent.trim();
+
+                    // For "Mixture" rows: play all speaker videos from that scene
+                    if (systemName === 'Mixture') {
+                        // Find all speaker tables after this Mixture row (within the same card)
+                        const card = audioRow.closest('.sample-card');
+                        const speakerTables = card.querySelectorAll('table');
+                        const mixtureTableIndex = Array.from(speakerTables).indexOf(audioRow.closest('table'));
+
+                        // Play all "Reference" videos from speaker tables after the mixture
+                        for (let i = mixtureTableIndex + 1; i < speakerTables.length; i++) {
+                            const refRow = speakerTables[i].querySelector('tr:has(td:contains("Reference"))');
+                            if (!refRow) {
+                                // Fallback: find first video in the speaker table
+                                const vid = speakerTables[i].querySelector('video');
+                                if (vid) {
+                                    vid.muted = true;
+                                    vid.play().catch(() => { });
+                                }
+                            } else {
+                                const vid = refRow.querySelector('video');
+                                if (vid) {
+                                    vid.muted = true;
+                                    vid.play().catch(() => { });
+                                }
+                            }
+                        }
+                    } else {
+                        // For system rows: find and play the corresponding video in the same row
+                        const vid = audioRow.querySelector('video');
+                        if (vid) {
+                            vid.muted = true;
+                            vid.play().catch(() => { });
+                        }
+                    }
+                }
+            }
         }, true);
+
+        // Normalize table rows so they match header column count
+        document.querySelectorAll('table').forEach(table => {
+            const headerCount = table.querySelectorAll('th').length;
+            if (!headerCount) return;
+            table.querySelectorAll('tr').forEach(tr => {
+                let cells = tr.querySelectorAll('td');
+                if (cells.length === 0) return;
+                while (cells.length < headerCount) {
+                    const empty = document.createElement('td');
+                    empty.innerHTML = '';
+                    tr.insertBefore(empty, tr.children[1] || null);
+                    cells = tr.querySelectorAll('td');
+                }
+            });
+        });
     });
 </script>
 
@@ -48,11 +114,22 @@
             <table>
                 <tr>
                     <th>System</th>
+                    <th>Video</th>
                     <th>Audio</th>
                     <th>ASR Transcription</th>
                 </tr>
                 <tr>
                     <td>Mixture</td>
+                    <td>
+                        <div style="display: flex; gap: 10px;">
+                            <video muted
+                                src="samples/3_spk_separation/separation_vox2_dcase/speakers/spk1/reference.mp4"></video>
+                            <video muted
+                                src="samples/3_spk_separation/separation_vox2_dcase/speakers/spk2/reference.mp4"></video>
+                            <video muted
+                                src="samples/3_spk_separation/separation_vox2_dcase/speakers/spk3/reference.mp4"></video>
+                        </div>
+                    </td>
                     <td><audio controls src="samples/3_spk_separation/separation_vox2_dcase/mix.wav"></audio></td>
                     <td class="asr-cell" data-audio-src="samples/3_spk_separation/separation_vox2_dcase/mix.wav">
                         loading…</td>
@@ -63,12 +140,16 @@
             <table>
                 <tr>
                     <th>System</th>
+                    <th>Video</th>
                     <th>Audio</th>
                     <th>ASR Transcription</th>
                 </tr>
 
                 <tr>
                     <td>Reference</td>
+                    <td><video controls
+                            src="samples/3_spk_separation/separation_vox2_dcase/speakers/spk1/reference.mp4"></video>
+                    </td>
                     <td><audio controls
                             src="samples/3_spk_separation/separation_vox2_dcase/speakers/spk1/reference.wav"></audio>
                     </td>
@@ -111,12 +192,16 @@
             <table>
                 <tr>
                     <th>System</th>
+                    <th>Video</th>
                     <th>Audio</th>
                     <th>ASR Transcription</th>
                 </tr>
 
                 <tr>
                     <td>Reference</td>
+                    <td><video controls
+                            src="samples/3_spk_separation/separation_vox2_dcase/speakers/spk2/reference.mp4"></video>
+                    </td>
                     <td><audio controls
                             src="samples/3_spk_separation/separation_vox2_dcase/speakers/spk2/reference.wav"></audio>
                     </td>
@@ -159,12 +244,16 @@
             <table>
                 <tr>
                     <th>System</th>
+                    <th>Video</th>
                     <th>Audio</th>
                     <th>ASR Transcription</th>
                 </tr>
 
                 <tr>
                     <td>Reference</td>
+                    <td><video controls
+                            src="samples/3_spk_separation/separation_vox2_dcase/speakers/spk3/reference.mp4"></video>
+                    </td>
                     <td><audio controls
                             src="samples/3_spk_separation/separation_vox2_dcase/speakers/spk3/reference.wav"></audio>
                     </td>
@@ -213,11 +302,22 @@
             <table>
                 <tr>
                     <th>System</th>
+                    <th>Video</th>
                     <th>Audio</th>
                     <th>ASR Transcription</th>
                 </tr>
                 <tr>
                     <td>Mixture</td>
+                    <td>
+                        <div style="display: flex; gap: 10px;">
+                            <video muted
+                                src="samples/3_spk_separation/separation_vox2_dns/speakers/spk1/reference.mp4"></video>
+                            <video muted
+                                src="samples/3_spk_separation/separation_vox2_dns/speakers/spk2/reference.mp4"></video>
+                            <video muted
+                                src="samples/3_spk_separation/separation_vox2_dns/speakers/spk3/reference.mp4"></video>
+                        </div>
+                    </td>
                     <td><audio controls src="samples/3_spk_separation/separation_vox2_dns/mix.wav"></audio></td>
                     <td class="asr-cell" data-audio-src="samples/3_spk_separation/separation_vox2_dns/mix.wav">
                         loading…</td>
@@ -228,12 +328,15 @@
             <table>
                 <tr>
                     <th>System</th>
+                    <th>Video</th>
                     <th>Audio</th>
                     <th>ASR Transcription</th>
                 </tr>
 
                 <tr>
                     <td>Reference</td>
+                    <td><video controls
+                            src="samples/3_spk_separation/separation_vox2_dns/speakers/spk1/reference.mp4"></video></td>
                     <td><audio controls
                             src="samples/3_spk_separation/separation_vox2_dns/speakers/spk1/reference.wav"></audio>
                     </td>
@@ -276,12 +379,15 @@
             <table>
                 <tr>
                     <th>System</th>
+                    <th>Video</th>
                     <th>Audio</th>
                     <th>ASR Transcription</th>
                 </tr>
 
                 <tr>
                     <td>Reference</td>
+                    <td><video controls
+                            src="samples/3_spk_separation/separation_vox2_dns/speakers/spk2/reference.mp4"></video></td>
                     <td><audio controls
                             src="samples/3_spk_separation/separation_vox2_dns/speakers/spk2/reference.wav"></audio>
                     </td>
@@ -330,6 +436,8 @@
 
                 <tr>
                     <td>Reference</td>
+                    <td><video controls
+                            src="samples/3_spk_separation/separation_vox2_dns/speakers/spk3/reference.mp4"></video></td>
                     <td><audio controls
                             src="samples/3_spk_separation/separation_vox2_dns/speakers/spk3/reference.wav"></audio>
                     </td>

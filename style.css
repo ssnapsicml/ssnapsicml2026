@@ -306,6 +306,41 @@ audio::-webkit-media-controls-play-button {
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
+video {
+    width: 220px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    background: var(--bg);
+    outline: 1px solid var(--border);
+    transition: var(--transition);
+}
+
+video:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    outline-color: var(--accent);
+}
+
+.media-grid {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.media-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.media-item label {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 0.9em;
+}
+
 .asr-cell {
     text-align: left;
     font-family: 'Monaco', 'Courier New', monospace;

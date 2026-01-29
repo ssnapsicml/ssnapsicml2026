@@ -10,15 +10,80 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // Map each audio element to its corresponding video(s)
+        // For mixture audio: play all speaker videos
+        // For system audio: play the corresponding speaker video
+
         document.addEventListener('play', event => {
-            if (event.target.tagName !== 'AUDIO') return;
-            document.querySelectorAll('audio').forEach(audio => {
-                if (audio !== event.target) {
-                    audio.pause();
-                    audio.currentTime = 0;
+            if (event.target.tagName !== 'AUDIO' && event.target.tagName !== 'VIDEO') return;
+
+            // Pause all other media
+            document.querySelectorAll('audio, video').forEach(media => {
+                if (media !== event.target) {
+                    media.pause();
+                    try { media.currentTime = 0; } catch (e) { }
                 }
             });
+
+            // If an audio is played, sync and play its corresponding video(s) muted
+            if (event.target.tagName === 'AUDIO') {
+                const audioSrc = event.target.getAttribute('src');
+                const audioRow = event.target.closest('tr');
+
+                if (audioRow) {
+                    const systemName = audioRow.querySelector('td').textContent.trim();
+
+                    // For "Noisey" (mixture) rows: play the speaker video
+                    if (systemName === 'Noisey') {
+                        // Find the speaker table after this Noisey row (within the same card)
+                        const card = audioRow.closest('.sample-card');
+                        const tables = card.querySelectorAll('table');
+                        const noiseTableIndex = Array.from(tables).indexOf(audioRow.closest('table'));
+
+                        // Play speaker video from the Enhanced table
+                        if (noiseTableIndex + 1 < tables.length) {
+                            const refRow = tables[noiseTableIndex + 1].querySelector('tr:has(td:contains("Reference"))');
+                            if (!refRow) {
+                                const vid = tables[noiseTableIndex + 1].querySelector('video');
+                                if (vid) {
+                                    vid.muted = true;
+                                    vid.play().catch(() => { });
+                                }
+                            } else {
+                                const vid = refRow.querySelector('video');
+                                if (vid) {
+                                    vid.muted = true;
+                                    vid.play().catch(() => { });
+                                }
+                            }
+                        }
+                    } else {
+                        // For system rows: find and play the corresponding video in the same row
+                        const vid = audioRow.querySelector('video');
+                        if (vid) {
+                            vid.muted = true;
+                            vid.play().catch(() => { });
+                        }
+                    }
+                }
+            }
         }, true);
+
+        // Normalize table rows so they match header column count
+        document.querySelectorAll('table').forEach(table => {
+            const headerCount = table.querySelectorAll('th').length;
+            if (!headerCount) return;
+            table.querySelectorAll('tr').forEach(tr => {
+                let cells = tr.querySelectorAll('td');
+                if (cells.length === 0) return;
+                while (cells.length < headerCount) {
+                    const empty = document.createElement('td');
+                    empty.innerHTML = '';
+                    tr.insertBefore(empty, tr.children[1] || null);
+                    cells = tr.querySelectorAll('td');
+                }
+            });
+        });
     });
 </script>
 
@@ -50,11 +115,16 @@
             <table>
                 <tr>
                     <th>System</th>
+                    <th>Video</th>
                     <th>Audio</th>
                     <th>ASR Transcription</th>
                 </tr>
                 <tr>
                     <td>Noisey</td>
+                    <td>
+                        <video muted
+                            src="samples/enhancement/enhancement_vox2_dcase/speakers/spk1/reference.mp4"></video>
+                    </td>
                     <td><audio controls src="samples/enhancement/enhancement_vox2_dcase/mix.wav"></audio></td>
                     <td class="asr-cell" data-audio-src="samples/enhancement/enhancement_vox2_dcase/mix.wav">loading…
                     </td>
@@ -65,12 +135,15 @@
             <table>
                 <tr>
                     <th>System</th>
+                    <th>Video</th>
                     <th>Audio</th>
                     <th>ASR Transcription</th>
                 </tr>
 
                 <tr>
                     <td>Reference</td>
+                    <td><video controls
+                            src="samples/enhancement/enhancement_vox2_dcase/speakers/spk1/reference.mp4"></video></td>
                     <td><audio controls
                             src="samples/enhancement/enhancement_vox2_dcase/speakers/spk1/reference.wav"></audio></td>
                     <td class="asr-cell"
@@ -80,6 +153,7 @@
 
                 <tr>
                     <td>FlowAvse</td>
+                    <td></td>
                     <td><audio controls
                             src="samples/enhancement/enhancement_vox2_dcase/speakers/spk1/flowavse.wav"></audio></td>
                     <td class="asr-cell"
@@ -89,6 +163,7 @@
 
                 <tr>
                     <td>RAVSS</td>
+                    <td></td>
                     <td><audio controls
                             src="samples/enhancement/enhancement_vox2_dcase/speakers/spk1/ravss.wav"></audio></td>
                     <td class="asr-cell"
@@ -98,6 +173,7 @@
 
                 <tr>
                     <td>Proposed</td>
+                    <td></td>
                     <td><audio controls
                             src="samples/enhancement/enhancement_vox2_dcase/speakers/spk1/proposed.wav"></audio></td>
                     <td class="asr-cell"
@@ -119,11 +195,15 @@
             <table>
                 <tr>
                     <th>System</th>
+                    <th>Video</th>
                     <th>Audio</th>
                     <th>ASR Transcription</th>
                 </tr>
                 <tr>
                     <td>Noisey</td>
+                    <td>
+                        <video muted src="samples/enhancement/enhancement_vox2_dns/speakers/spk1/reference.mp4"></video>
+                    </td>
                     <td><audio controls src="samples/enhancement/enhancement_vox2_dns/mix.wav"></audio></td>
                     <td class="asr-cell" data-audio-src="samples/enhancement/enhancement_vox2_dns/mix.wav">loading…</td>
                 </tr>
@@ -133,12 +213,15 @@
             <table>
                 <tr>
                     <th>System</th>
+                    <th>Video</th>
                     <th>Audio</th>
                     <th>ASR Transcription</th>
                 </tr>
 
                 <tr>
                     <td>Reference</td>
+                    <td><video controls
+                            src="samples/enhancement/enhancement_vox2_dns/speakers/spk1/reference.mp4"></video></td>
                     <td><audio controls
                             src="samples/enhancement/enhancement_vox2_dns/speakers/spk1/reference.wav"></audio></td>
                     <td class="asr-cell"
@@ -148,6 +231,7 @@
 
                 <tr>
                     <td>FlowAvse</td>
+                    <td></td>
                     <td><audio controls
                             src="samples/enhancement/enhancement_vox2_dns/speakers/spk1/flowavse.wav"></audio></td>
                     <td class="asr-cell"
@@ -157,6 +241,7 @@
 
                 <tr>
                     <td>FlowAvse - Trained on 2 speakers</td>
+                    <td></td>
                     <td><audio controls
                             src="samples/enhancement/enhancement_vox2_dns/speakers/spk1/flowavse2.wav"></audio></td>
                     <td class="asr-cell"
@@ -166,6 +251,7 @@
 
                 <tr>
                     <td>FlowAvse - Trained on 3 speakers</td>
+                    <td></td>
                     <td><audio controls
                             src="samples/enhancement/enhancement_vox2_dns/speakers/spk1/flowavse3.wav"></audio></td>
                     <td class="asr-cell"
@@ -175,6 +261,7 @@
 
                 <tr>
                     <td>RAVSS</td>
+                    <td></td>
                     <td><audio controls src="samples/enhancement/enhancement_vox2_dns/speakers/spk1/ravss.wav"></audio>
                     </td>
                     <td class="asr-cell"
@@ -183,6 +270,7 @@
 
                 <tr>
                     <td>Proposed</td>
+                    <td></td>
                     <td><audio controls
                             src="samples/enhancement/enhancement_vox2_dns/speakers/spk1/proposed.wav"></audio></td>
                     <td class="asr-cell"
